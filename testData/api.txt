@@ -1,0 +1,539 @@
+
+Easy way to remember:
+
+toBeDefined() → "Property hai ya nahi?" ✅
+toBe() → "Property ki value sahi hai ya nahi?" ✅
+toEqual() → "Poora object/response sahi hai ya nahi?" ✅
+
+| Matcher             | Purpose                                                         | Example                                                                  | Passes When                                                    |
+| ------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------ | -------------------------------------------------------------- |
+| `toBeDefined()`     | Checks that a value exists (not `undefined`)                    | `expect(responseBody.bookingid).toBeDefined();`                          | `bookingid` is present in the response                         |
+| `toBe()`            | Checks an exact primitive value (`number`, `string`, `boolean`) | `expect(response.status()).toBe(200);`                                   | Status is exactly `200`                                        |
+| `toEqual()`         | Compares the complete object, array, or value                   | `expect(responseBody.booking).toEqual(expectedBooking);`                 | Both objects have the same structure and values                |
+| `expect.any()`      | Validates the data type                                         | `expect(responseBody.bookingid).toEqual(expect.any(Number));`            | `bookingid` is any number (e.g., `1`, `123`, `4567`)           |
+| `toBeGreaterThan()` | Checks a number is greater than a value                         | `expect(responseBody.bookingid).toBeGreaterThan(0);`                     | `bookingid` is `1` or higher                                   |
+| `toContain()`       | Checks if an array or string contains a value                   | `expect(tags).toContain("API");`                                         | `"API"` exists in the array/string                             |
+| `toHaveProperty()`  | Checks if an object has a property                              | `expect(responseBody).toHaveProperty("bookingid");`                      | `bookingid` property exists                                    |
+| `toMatchObject()`   | Checks only specific fields of an object                        | `expect(responseBody).toMatchObject({ booking: { firstname: "Jim" } });` | The specified fields match, extra fields are ignored           |
+| `toBeTruthy()`      | Checks if a value is truthy                                     | `expect(responseBody.bookingid).toBeTruthy();`                           | Value is not `0`, `false`, `null`, `undefined`, `""`, or `NaN` |
+| `toBeFalsy()`       | Checks if a value is falsy                                      | `expect(isError).toBeFalsy();`                                           | Value is `false`, `0`, `null`, `undefined`, `""`, or `NaN`     |
+
+If you want to check which value is present, don't use toBeDefined(). Use the matcher based on what you want to validate.
+
+| Requirement                 | Matcher             | Example                                                       |
+| --------------------------- | ------------------- | ------------------------------------------------------------- |
+| Check property exists       | `toBeDefined()`     | `expect(responseBody.bookingid).toBeDefined();`               |
+| Check exact value           | `toBe()`            | `expect(responseBody.booking.firstname).toBe("Jim");`         |
+| Check exact object          | `toEqual()`         | `expect(responseBody.booking).toEqual(expectedBooking);`      |
+| Check data type             | `expect.any()`      | `expect(responseBody.bookingid).toEqual(expect.any(Number));` |
+| Check value is greater than | `toBeGreaterThan()` | `expect(responseBody.bookingid).toBeGreaterThan(0);`          |
+
+
+
+Yes. expect.any() is the most common way, but there are several other ways to check the data type in Playwright/Jest.
+
+| Method                               | Example                                                         | Checks                                            |
+| ------------------------------------ | --------------------------------------------------------------- | ------------------------------------------------- |
+| `expect.any(Number)` ✅ (Recommended) | `expect(responseBody.bookingid).toEqual(expect.any(Number));`   | Value is a number                                 |
+| `typeof`                             | `expect(typeof responseBody.bookingid).toBe("number");`         | JavaScript type is `"number"`                     |
+| `instanceof`                         | `expect(responseBody.bookingid instanceof Number).toBe(false);` | Usually **not recommended** for primitive numbers |
+| `Number.isInteger()`                 | `expect(Number.isInteger(responseBody.bookingid)).toBe(true);`  | Value is an integer                               |
+| `Number.isFinite()`                  | `expect(Number.isFinite(responseBody.bookingid)).toBe(true);`   | Value is a finite number                          |
+
+
+
+===============================================================================================================================================================
+
+# JavaScript/TypeScript Functions vs Class Methods
+
+## 1. Normal Function (Standalone Function)
+
+A normal function is declared outside of a class.
+
+### Example
+
+```ts
+function readJson(filePath: string) {
+  return JSON.parse(fs.readFileSync(filePath, "utf-8"));
+}
+
+const requestBody = readJson("testdata/post_request_body.json");
+```
+
+### Why can we call it directly?
+
+* It is **not inside a class**.
+* It is a standalone function.
+* No object creation is required.
+
+### Syntax
+
+```ts
+function functionName() {
+    // code
+}
+
+functionName();
+```
+
+### Advantages
+
+* Easy to reuse.
+* No object creation required.
+* Best for utility/helper functions.
+
+---
+
+# 2. Class Instance Method
+
+If the function is inside a class, an object must be created before calling it.
+
+### Example
+
+```ts
+class FileUtil {
+
+    readJson(filePath: string) {
+        return JSON.parse(fs.readFileSync(filePath, "utf-8"));
+    }
+
+}
+
+const fileUtil = new FileUtil();
+
+const requestBody = fileUtil.readJson("testdata/post_request_body.json");
+```
+
+### Why?
+
+Because `readJson()` belongs to an object of `FileUtil`.
+
+### Syntax
+
+```ts
+const obj = new ClassName();
+
+obj.methodName();
+```
+
+### Advantages
+
+* Used when methods work with object data.
+* Supports OOP concepts like encapsulation and inheritance.
+
+---
+
+# 3. Static Method
+
+A static method belongs to the class itself.
+
+### Example
+
+```ts
+class FileUtil {
+
+    static readJson(filePath: string) {
+        return JSON.parse(fs.readFileSync(filePath, "utf-8"));
+    }
+
+}
+
+const requestBody = FileUtil.readJson("testdata/post_request_body.json");
+```
+
+### Why?
+
+* Static methods belong to the class.
+* No object creation required.
+
+### Syntax
+
+```ts
+ClassName.methodName();
+```
+
+### Advantages
+
+* Best for utility methods.
+* Memory efficient.
+* No object creation.
+
+---
+
+# Comparison Table
+
+| Feature               | Normal Function   | Instance Method            | Static Method          |
+| --------------------- | ----------------- | -------------------------- | ---------------------- |
+| Declared Inside Class | ❌ No              | ✅ Yes                      | ✅ Yes                  |
+| Object Required       | ❌ No              | ✅ Yes                      | ❌ No                   |
+| Call Syntax           | `readJson()`      | `obj.readJson()`           | `FileUtil.readJson()`  |
+| Belongs To            | Function          | Object                     | Class                  |
+| Best Use              | Utility Functions | Object-specific operations | Utility/Helper Methods |
+
+---
+
+# Interview Questions
+
+## Q1. Why is `readJson()` called directly?
+
+**Answer:**
+
+Because it is a standalone function and not part of a class. Therefore, no object creation is required.
+
+---
+
+## Q2. When do we create an object?
+
+**Answer:**
+
+When calling a non-static (instance) method of a class.
+
+Example:
+
+```ts
+const fileUtil = new FileUtil();
+fileUtil.readJson(path);
+```
+
+---
+
+## Q3. When do we use a static method?
+
+**Answer:**
+
+When the method does not depend on object data and can be shared across the application.
+
+Example:
+
+```ts
+FileUtil.readJson(path);
+```
+
+---
+
+# Easy Memory Trick
+
+### Normal Function
+
+```text
+Function → Direct Call
+```
+
+```ts
+readJson();
+```
+
+---
+
+### Instance Method
+
+```text
+Class → Create Object → Call Method
+```
+
+```ts
+const obj = new FileUtil();
+
+obj.readJson();
+```
+
+---
+
+### Static Method
+
+```text
+Class → Direct Call
+```
+
+```ts
+FileUtil.readJson();
+```
+
+---
+
+# Final Interview Answer
+
+* **Normal Function** → Directly called by function name.
+* **Instance Method** → Requires object creation using `new`.
+* **Static Method** → Called using the class name without creating an object.
+==========================================================================================================================================================
+==============================================================================================================================
+| Language              | Wrong                               | Correct                                                                     |
+| --------------------- | ----------------------------------- | --------------------------------------------------------------------------- |
+| Java                  | `"C:\Users\file.txt"`               | `"C:\\Users\\file.txt"` or `"C:/Users/file.txt"`                            |
+| JavaScript/TypeScript | `"testData\post_request_body.json"` | `"testData\\post_request_body.json"` or `"testData/post_request_body.json"` |
+
+
+# File Path Notes (Java vs JavaScript/TypeScript)
+
+## 1. Forward Slash (`/`) ✅
+
+**Recommended in Java and JavaScript/TypeScript**
+
+```java
+String path = "testData/post_request_body.json";
+```
+
+```ts
+const path = "testData/post_request_body.json";
+```
+
+### Advantages
+
+* Works on Windows, Linux, and macOS.
+* No escaping required.
+* Industry standard.
+
+---
+
+## 2. Backslash (`\`)
+
+Backslash (`\`) is an **escape character**.
+
+### Java
+
+❌ Wrong
+
+```java
+"C:\Users\file.txt"
+```
+
+✅ Correct
+
+```java
+"C:\\Users\\file.txt"
+```
+
+---
+
+### JavaScript / TypeScript
+
+❌ Wrong
+
+```ts
+"testData\post_request_body.json"
+```
+
+✅ Correct
+
+```ts
+"testData\\post_request_body.json"
+```
+
+---
+
+## Interview Question
+
+### Q. Which file path format is recommended?
+
+**Answer:**
+
+Use **forward slash (`/`)** because:
+
+* Cross-platform compatible.
+* No escape character issues.
+* Works in Java, JavaScript, TypeScript, and Node.js.
+
+### Final Rule
+
+```text
+✅ Use "/" (Recommended)
+⚠ Use "\\" if you need backslashes
+❌ Never use a single "\" in a string
+```
+================================================================================
+
+TypeScript Test
+       │
+       ▼
+TypeScript Compiler (tsc)
+       │
+       ▼
+JavaScript
+       │
+       ▼
+Playwright Test Runner
+       │
+       ▼
+Node.js Runtime
+       │
+       ▼
+V8 JavaScript Engine
+
+
+
+Yes. Playwright itself does not provide a built-in API to connect to databases.
+ However, since Playwright tests run on Node.js, you can use any Node.js database library directly in your TypeScript tests
+
+ Playwright Test
+      │
+      ▼
+ TypeScript / Node.js
+      │
+      ▼
+Database Driver (npm package)
+      │
+      ▼
+ Database (MySQL / PostgreSQL / Oracle / SQL Server / MongoDB)
+
+
+ Common Database Libraries
+
+ | Database   | TypeScript Library | Install Command        |
+| ---------- | ------------------ | ---------------------- |
+| MySQL      | `mysql2`           | `npm install mysql2`   |
+| PostgreSQL | `pg`               | `npm install pg`       |
+| SQL Server | `mssql`            | `npm install mssql`    |
+| Oracle     | `oracledb`         | `npm install oracledb` |
+| MongoDB    | `mongodb`          | `npm install mongodb`  |
+
+npm install mysql2
+
+import mysql from "mysql2/promise";
+
+const connection = await mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "password",
+  database: "employees",
+});
+
+const [rows] = await connection.query(
+  "SELECT * FROM users WHERE id = ?",
+  [1]
+);
+
+console.log(rows);
+
+await connection.end();
+
+
+
+npm install oracledb
+
+import oracledb from "oracledb";
+
+const connection = await oracledb.getConnection({
+  user: "hr",
+  password: "welcome",
+  connectString: "localhost/XEPDB1",
+});
+
+const result = await connection.execute(
+  "SELECT * FROM employees"
+);
+
+console.log(result.rows);
+
+await connection.close();
+
+
+Best Practice in Playwright Framework
+utils/
+   DatabaseUtil.ts
+
+   export class DatabaseUtil {
+
+   async executeQuery(query: string) {
+      // connection
+      // execute
+      // return result
+   }
+
+}
+
+const db = new DatabaseUtil();
+
+const result = await db.executeQuery(
+    "SELECT * FROM USERS"
+);
+
+expect(result.length).toBeGreaterThan(0);
+
+
+
+Interview Question
+
+Q. Does Playwright have built-in support for database connections?
+
+Answer:
+
+No. Playwright does not provide any built-in database API. Since Playwright runs on Node.js, we use database-specific Node.js 
+libraries such as mysql2, pg, mssql, or oracledb to connect to databases and execute SQL queries. 
+This is the standard approach in Playwright automation frameworks.
+
+If you're working in the telecom domain with Oracle DB (like in Amdocs), the oracledb package is the library you'll most likely use.
+
+npm install mysql2
+npm install pg
+npm install mssql
+npm install oracledb
+npm install mongodb
+
+
+Common SSH Libraries
+
+| Purpose                      | Library    | Install Command        |
+| ---------------------------- | ---------- | ---------------------- |
+| SSH Connection (Recommended) | `ssh2`     | `npm install ssh2`     |
+| Promise-based SSH            | `node-ssh` | `npm install node-ssh` |
+
+
+1. ssh2 (Low-level)
+npm install ssh2
+
+
+2. node-ssh (Recommended for Playwright)
+
+npm install node-ssh
+
+
+import { NodeSSH } from "node-ssh";
+
+const ssh = new NodeSSH();
+
+await ssh.connect({
+  host: "192.168.1.10",
+  username: "user",
+  password: "password",
+});
+
+const result = await ssh.execCommand("ls -l");
+
+console.log(result.stdout);
+
+ssh.dispose();
+
+
+Playwright + SSH Flow
+Playwright Test
+      │
+      ▼
+Node.js Runtime
+      │
+      ▼
+node-ssh / ssh2 Library
+      │
+      ▼
+Linux Server (SSH)
+
+
+Interview Answer
+
+Q. How do you connect to a Linux server from Playwright?
+
+Answer:
+
+Playwright does not provide built-in SSH support. Since Playwright runs on Node.js,
+ we use Node.js SSH libraries such as node-ssh or ssh2 to connect to remote Linux servers and execute commands.
+
+
+
+ | Task               | Library                     |
+| ------------------ | --------------------------- |
+| Oracle DB          | `oracledb`                  |
+| MySQL              | `mysql2`                    |
+| PostgreSQL         | `pg`                        |
+| SQL Server         | `mssql`                     |
+| MongoDB            | `mongodb`                   |
+| **SSH Connection** | **`node-ssh`** / **`ssh2`** |

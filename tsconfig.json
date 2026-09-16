@@ -1,0 +1,50 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "Node16",
+    "moduleResolution": "Node16",
+    "sourceMap": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "types": ["node", "@playwright/test"]
+  },
+  "include": [
+    "tests/**/*.ts",
+    "playwright.config.ts",
+    "PageObjectModule/1AddProduct.spec.ts"
+  ]
+}
+
+//  "types": ["node", "@playwright/test"]
+
+// 1. "node" TypeScript ko batata hai ki project me Node.js modules (fs, path, process, etc.) use honge.
+// 2. "@playwright/test" TypeScript ko batata hai ki Playwright types (test, expect, page, browser, etc.) use honge.
+// "types" property tells TypeScript which type definitions to load.
+
+// • "node" → Enables Node.js modules like fs, path, process.
+// • "@playwright/test" → Enables Playwright objects like test, expect, page, browser.
+
+// Short Answer
+
+// Tum directly use kar sakte ho. tsconfig.json hamesha mandatory nahi hota.
+
+// Lekin agar TypeScript ko Node.js types automatically nahi milte, to VS Code error dikhata hai.
+
+// Simple Explanation
+
+// Without:
+
+// "types": ["node"]
+
+/* Pehle:
+
+TypeScript bol raha tha:
+"Mujhe fs ke baare me information nahi hai."
+
+Baad me:
+
+"types": ["node"]
+
+TypeScript bolta hai:
+"Ab mujhe pata chal gaya ki fs Node.js ka built-in module hai." */
