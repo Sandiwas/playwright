@@ -83,9 +83,7 @@ Links
 Menu options
 
 3. page.getByRole()
-Scenario: Click the Login button.await page.getByRole('button', {
-  name: 'Login'
-}).click();
+Scenario: Click the Login button.await page.getByRole('button', {name: 'Login'}).click();
 
 Real-Time Use:
 Buttons
