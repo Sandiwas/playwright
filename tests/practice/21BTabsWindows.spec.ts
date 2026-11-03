@@ -6,9 +6,13 @@ test("Handal New Page/Tab", async ({ context }) => {
   await parentPage.goto("https://testautomationpractice.blogspot.com/", { waitUntil: "domcontentloaded" });
   await parentPage.waitForTimeout(5000);
 
-  const [newPage] = await Promise.all([context.waitForEvent("page"), parentPage.locator("button:has-text('New Tab')").click()]);
+  //const [newPage] = await Promise.all([context.waitForEvent("page"), parentPage.locator("button:has-text('New Tab')").click()]);
 
-  const pages = context.pages();
+  const newPagePromise =  parentPage.context().waitForEvent("page"); //or context().waitForEvent("page")
+  await parentPage.locator("button:has-text('New Tab')").click();
+  const newPage = await newPagePromise;
+
+  const pages = context.pages(); // or   const pages = parentPage.context().pages();
   console.log("Number of pages : ", pages.length);
 
   //Appraoch 1: switch between pages and get titles ( using context)
@@ -36,5 +40,4 @@ test("Handal New Page/Tab", async ({ context }) => {
   await expect(newPage).toHaveURL("https://www.pavantestingtools.com/");
 
   await context.close();
-
 });
