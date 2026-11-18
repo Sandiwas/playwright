@@ -16,25 +16,19 @@ test("Verify Login", async ({ page }) => {
 
   await expect(page).toHaveTitle("Demo Web Shop. Login");
   await expect(page).toHaveURL("https://demowebshop.tricentis.com/login");
-
+  
   await page.getByLabel("Email:").fill("harrycode9@gmail.com");
   await page.getByLabel("Password:").fill("admin@123");
   await page.getByRole("button", { name: "Log in" }).click();
 
   await page.waitForLoadState("load");
 
-  let status: boolean = await page
-    .getByAltText("Tricentis Demo Web Shop")
-    .isVisible(); //retun true or false
+  let status: boolean = await page.getByAltText("Tricentis Demo Web Shop").isVisible(); //retun true or false
   console.log(status);
-  expect(
-    await page.getByAltText("Tricentis Demo Web Shop").isVisible(),
-  ).toBeTruthy();
+  expect(await page.getByAltText("Tricentis Demo Web Shop").isVisible()).toBeTruthy();
   await expect(page.getByAltText("Tricentis Demo Web Shop")).toBeVisible();
 
-  await expect(
-    page.getByRole("img", { name: "Tricentis Demo Web Shop" }),
-  ).toBeVisible();
+  await expect(page.getByRole("img", { name: "Tricentis Demo Web Shop" })).toBeVisible();
   console.log("Login successful");
 });
 
@@ -140,9 +134,6 @@ page.getByRole("link", { name: "Home" });
 
  */
 
-
-
-
 //getByTitle() tabhi use kar sakte ho jab DOM me title attribute present ho.
 
 // Locator	DOM AttributegetByTitle()	title=" "
@@ -150,9 +141,6 @@ page.getByRole("link", { name: "Home" });
 // getByLabel()	<label> / aria-label
 // getByPlaceholder()	placeholder=" "
 // getByRole()	Role + Accessible Name
-
-
-
 
 /* Interview Answer:
 toHaveText() → Used when you want to validate the complete exact text of an element.

@@ -1,10 +1,7 @@
 import { test, expect, Locator } from "@playwright/test";
 
 test("bootstrap hidden dropdown", async ({ page }) => {
-  await page.goto(
-    "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login",
-    { waitUntil: "domcontentloaded" },
-  );
+  await page.goto("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login", { waitUntil: "domcontentloaded" });
 
   //login
   await page.locator("input[name='username']").fill("Admin");

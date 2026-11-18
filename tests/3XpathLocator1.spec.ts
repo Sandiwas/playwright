@@ -9,7 +9,7 @@ test("Xpath demo in playwright", async ({ page }) => {
   const realativeLogo: Locator = page.locator("//img[@alt='Tricentis Demo Web Shop']",);
   await expect(realativeLogo).toBeVisible();
 
- //content() 
+ //contains() 
 //---------------------------------------------------------------------------------------------------------
   const products: Locator = page.locator("//h2/a[contains(@href,'computer')]");
   const productCount: number = await products.count();

@@ -32,7 +32,8 @@ context.tracing.start({screenshots: true,snapshots: true});
   await page.getByRole('button', { name: 'Log in' }).click();
   await expect(page.getByRole('link', { name: 'Welcome pavanol' })).toBeVisible();
   await page.getByRole('link', { name: 'Log out' }).click();
- context.tracing.stop({path:'./trace.zip'});
+  
+ context.tracing.stop({path:'./trace.zip'}); 
 }); 
 
 

@@ -169,6 +169,9 @@ test.only("checkBox Actions", async ({ page }) => {
       await expect(checkbox).toBeChecked();
     }
   }
+
+
+
 });
 
 // slice()

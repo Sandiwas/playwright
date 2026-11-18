@@ -26,13 +26,13 @@ test("simple alert", async ({ page }) => {
 test("confrom dialog", async ({ page }) => {
   await page.goto("https://testautomationpractice.blogspot.com/", { waitUntil: "domcontentloaded" });
 
-  page.on("dialog", (dialog) => {
+  page.on("dialog", async (dialog) => {
     console.log("Dialog type is : ", dialog.type());
     expect(dialog.type()).toContain("confirm");
     console.log("Dialog message is ", dialog.message());
     expect(dialog.message()).toContain("Press a button!");
     //dialog.accept();
-    dialog.dismiss();
+    await dialog.dismiss();
   });
 
   await page.getByRole("button", { name: "Confirmation Alert" }).click(); // Opens dialog
@@ -48,14 +48,14 @@ test("confrom dialog", async ({ page }) => {
 test.only("prompt dialog", async ({ page }) => {
   await page.goto("https://testautomationpractice.blogspot.com/", { waitUntil: "domcontentloaded" });
 
-  page.on("dialog", (dialog) => {
+  page.on("dialog", async (dialog) => {
     console.log("dialog type : ", dialog.type());
     expect(dialog.type()).toContain("prompt");
     console.log("dialog message is : ", dialog.message());
     expect(dialog.message()).toContain("Please enter your name:");
     console.log("Default name is : ", dialog.defaultValue());
     expect(dialog.defaultValue()).toBe("Harry Potter");
-    dialog.accept("Tom");
+    await dialog.accept("Tom");
   });
 
   await page.getByRole("button", { name: "Prompt Alert" }).click(); // Opens dialog

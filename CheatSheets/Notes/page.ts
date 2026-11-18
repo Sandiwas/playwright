@@ -117,7 +117,7 @@ These methods read the current state once and return immediately.
 
 | Assertion                          | Default Timeout |
 | ---------------------------------- | --------------- |
-| `await expect(page).toHaveURL()`   | 5 sec           |
+| `await expect(page).toHaveURL()`   | 5 sec            |
 | `await expect(page).toHaveTitle()` | 5 sec           |
 
 These assertions continuously retry until the condition becomes true or timeout is reached.

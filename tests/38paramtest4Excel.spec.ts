@@ -2,6 +2,7 @@ import { test, expect } from "@playwright/test";
 import * as fs from "fs";
 import * as XLSX from "xlsx";
 
+
 // 1. First, we read the complete Excel file and store it in a Workbook object.
 // 2. Then we get the name of the first sheet using workbook.SheetNames[0].
 // 3. Next, we access that sheet from the workbook and store it in a Worksheet object.

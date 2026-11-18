@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import { defineConfig, devices } from "@playwright/test";
+import { defineConfig } from "@playwright/test";
 
 /**
  * Read environment variables from file.
@@ -14,6 +14,25 @@ import { defineConfig, devices } from "@playwright/test";
  */
 export default defineConfig({
   testDir: "./tests",
+
+  // timeout: 60000,
+  //expect: { timeout: 10000 },
+
+  /* 
+  // To change the timeout globally for all tests (default is 30000 ms / 30 secs)
+   timeout: 60000,
+  
+   Ek test case ko complete hone ke liye maximum 60 seconds milenge.
+   Agar test 60 seconds ke andar complete nahi hua, to Playwright test ko fail kar dega with timeout error.
+   test('Login Test', async ({ page }) => {
+   pura test 60 sec ke andar complete hona chahiye
+  });
+  
+  To apply a longer wait for all expect assertions (default is 5000 ms / 5 secs)
+  expect: {timeout: 10000},
+  
+  */
+
   //grep:/@sanity/,
   //grep:/(?=.*@sanity)(?=.*@regression)/,
   //grepInvert:/@regression/,
@@ -23,7 +42,10 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
   // retries: process.env.CI ? 2 : 0,
-  // retries:1,
+
+  //retry locally
+  //retries:3,
+
   /* Opt out of parallel tests on CI. */
   //workers: process.env.CI ? 1 : undefined,
   workers: 1,
@@ -42,8 +64,8 @@ export default defineConfig({
       },
     ],
   ],
-  // reporter:'line',
-  // reporter:'dot',
+  //reporter:'line',
+  //reporter:'dot',
   //reporter:'line',
   //reporter:[['junit',{outputFolder:'junitReport/result.xml'}]]
   //reporter:[['json',{outputfoledr:'jsonReprt/result.json'}]]
@@ -66,15 +88,15 @@ export default defineConfig({
 
     screenshot: "only-on-failure", //'on' 'on-first-failuer' 'only-on-failuer',
     video: "retain-on-failure", //recored the video
-    trace:"retain-on-failure" /* Collect trace when retrying the failed test. */,
+    trace: "off" /* Collect trace when retrying the failed test. */,
 
     /* Open browser in maximized mode */
-    headless: true,
+    headless: false,
     viewport: null,
     //locale:'en-US',
     //viewport:{width:1200,height:800},
     //proxy:{server:'https://myproxy.com:3245'},
-    ignoreHTTPSErrors: true,
+    ignoreHTTPSErrors: false,
     launchOptions: {
       args: ["--start-maximized"],
     },
@@ -87,9 +109,7 @@ export default defineConfig({
       name: "chromium",
       use: {
         browserName: "chromium",
-        viewport: null,
-        //viewport:{width:1200,height:800},
-        launchOptions: { args: ["--start-maximized"] },
+        channel: "chrome",
       },
     },
 

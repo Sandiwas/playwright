@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 test("test", async ({ page ,context}, testInfo) => {
+  //test.use({trace :'on'})
   page.context().tracing.start({screenshots:true,snapshots:true,sources:true});
 
   await page.goto("https://demowebshop.tricentis.com/");

@@ -65,6 +65,33 @@ Browser  → Entire Chrome window
 Context  → One Incognito session
 Page     → One tab inside that session
 
+
+Interview Answer
+
+Playwright supports Chromium, Firefox, and WebKit browsers. Chromium is used for Chrome and Edge, Firefox for Mozilla Firefox, and WebKit for Safari browser testing.
+For different browsers in Playwright:
+import { chromium, firefox, webkit } from '@playwright/test';
+// Chrome / Edge
+const browser = await chromium.launch();
+// Firefox
+const browser = await firefox.launch();\
+// Safari (WebKit)
+const browser = await webkit.launch();
+`
+If you want a specific browser channel:
+// Google Chrome
+const browser = await chromium.launch({
+  channel: 'chrome'
+});
+
+// Microsoft Edge
+const browser = await chromium.launch({
+  channel: 'msedge'
+});
+
+
+Fixtures are ready-made objects that Playwright creates and manages automatically. 
+They provide built-in objects like browser, context, page, and request, and Playwright automatically handles their setup and cleanup. ✅
 =================================================================================================================================================================
 fixture  
 "Fixture is a ready-made object or resource that Playwright automatically provides to our test so that we don't have to create it manually every time."
@@ -83,7 +110,9 @@ test('My Test', async ({ page }) => {
 
 Interview Answer
 
-"A fixture is a reusable setup mechanism that provides ready-to-use resources like browser, context, and page to our tests. It reduces duplicate code and helps maintain test isolation."
+"A fixture is a reusable setup mechanism that provides ready-to-use resources like browser, context, and page to our tests. 
+It reduces duplicate code and helps maintain test isolation."
+
 
 Super Simple Version
 

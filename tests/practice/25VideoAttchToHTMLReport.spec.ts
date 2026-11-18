@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test("test", async ({ browser }, testInfo) => {
+test("test", async ({ browser}, testInfo) => {
   const context = await browser.newContext({ recordVideo: { dir: ".video/", size: { width: 1920, height: 1080 } } });
   const page=await context.newPage();
 
