@@ -13,7 +13,7 @@ test("shadow dom", async ({ page }) => {
   await showNow.click();
   await page.waitForTimeout(5000);
   console.log(await page.locator(".title").count());
-  
+
   await expect(page.locator(".title")).toHaveCount(16);
   const allProduct: Locator[] = await page.locator(".title").all();
 

@@ -13,7 +13,7 @@
     "tests/**/*.ts",
     "playwright.config.ts",
     "PageObjectModule/1AddProduct.spec.ts"
-  ]
+,     "my-custom-reporter.ts"  ]
 }
 
 //  "types": ["node", "@playwright/test"]

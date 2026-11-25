@@ -9,7 +9,7 @@ test("test", async ({ page }, testInfo) => {
   await page.getByRole("link", { name: "Log in" }).click();
   await page.getByRole("textbox", { name: "Email:" }).fill("wasekarsandip@gmail.com");
   await page.getByRole("textbox", { name: "Password:" }).fill("admin@123");
-  const filepath = await page.screenshot({ path: filePath });
+  const filepath = await page.screenshot({ path: filePath, fullPage : true });
   await page.getByRole("button", { name: "Log in" }).click();
   await expect(page.locator("body")).toContainText("wasekarsandip@gmail.com");
   await expect(page.getByRole("link", { name: "Log out" })).toBeVisible();

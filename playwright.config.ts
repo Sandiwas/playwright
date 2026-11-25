@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import { defineConfig } from "@playwright/test";
+import { defineConfig ,devices} from "@playwright/test";
 
 /**
  * Read environment variables from file.
@@ -51,8 +51,28 @@ export default defineConfig({
   workers: 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
 
-  //reporter: "html",
-  reporter: [
+  reporter: "html",
+  //reporter: "list",
+  //reporter: "dot",
+  //reporter: "line",
+  //reporter: "junit",
+  //reporter: "json",
+  //reporter: "allure-playwright",
+
+  // reporter: [
+  //   ["html", { open: "always", outputFolder: "html-report" }],
+  //   ["list"],
+  //   ["line"],
+  //   ["dot"],
+  //   ["json", { outputFile: "json-report/result.json" }],
+  //   ["junit", { outputFile: "junit-report/result.xml" }],
+  //   ["allure-playwright"],
+  //   ['./my-custom-reporter.ts', { customOption: 'some value' }]
+  // ],
+
+//reporter : [ ['./my-custom-reporter.ts', { customOption: 'some value' }]],
+
+  /*   reporter: [
     ["html"],
     [
       "allure-playwright",
@@ -63,12 +83,12 @@ export default defineConfig({
         cleanResults: true,
       },
     ],
-  ],
+  ], */
   //reporter:'line',
   //reporter:'dot',
   //reporter:'line',
-  //reporter:[['junit',{outputFolder:'junitReport/result.xml'}]]
-  //reporter:[['json',{outputfoledr:'jsonReprt/result.json'}]]
+  //reporter:[['junit',{outputFile:'junitReport/result.xml'}]]
+  //reporter:[['json',{outputFile:'jsonReprt/result.json'}]]
   //reporter:[['html',{open:'always','outputFolder':'html-report'}]],
   // reporter:[['html',{open:'always',outputFolder:'report-html'}],
   //          ['line'],
@@ -88,7 +108,7 @@ export default defineConfig({
 
     screenshot: "only-on-failure", //'on' 'on-first-failuer' 'only-on-failuer',
     video: "retain-on-failure", //recored the video
-    trace: "off" /* Collect trace when retrying the failed test. */,
+    trace: "retain-on-failure" /* Collect trace when retrying the failed test. */,
 
     /* Open browser in maximized mode */
     headless: false,
@@ -115,7 +135,9 @@ export default defineConfig({
 
     // {
     //   name: "firefox",
-    //   use: { ...devices["Desktop Firefox"] },
+    //   use: {
+    //     ...devices["Desktop Firefox"],
+    //   },
     // },
 
     // {

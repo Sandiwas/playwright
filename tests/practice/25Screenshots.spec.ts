@@ -1,6 +1,9 @@
 import { test, expect, Locator } from "@playwright/test";
 
+test.use({screenshot: "only-on-failure"});
+
 test("screenshots demo", async ({ page }) => {
+  
   await page.goto("https://www.demoblaze.com/");
 
   const timestamp = Date.now();
@@ -10,6 +13,7 @@ test("screenshots demo", async ({ page }) => {
   //page screenshot
 
   await page.screenshot({ path: "screenshots/" + "homepage" + timestamp + ".png" });
+  //await page.screenshot({path: `screenshots/homepage-${timestamp}.png`,});
 
   //fullpage screenshot
   await page.screenshot({ path: "screenshots/" + "fullpagescreenshot" + timestamp + ".png", fullPage: true });
